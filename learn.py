@@ -9,11 +9,6 @@ import numpy as np
 from sgf import sgf2feed, import_sgf
 import tensorflow as tf
 
-tpu_grpc_url = "grpc://"+os.environ["COLAB_TPU_ADDR"]
-tpu_cluster_resolver = tf.contrib.cluster_resolver.TPUClusterResolver(tpu_grpc_url)
-strategy = keras_support.TPUDistributionStrategy(tpu_cluster_resolver)
-model = tf.contrib.tpu.keras_to_tpu_model(model, strategy=strategy)
-
 rnd_array = [np.arange(BVCNT + 1)]
 for i in range(1, 8):
     rnd_array.append(rnd_array[i - 1])

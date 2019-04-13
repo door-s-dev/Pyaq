@@ -113,9 +113,12 @@ class DualNetwork(object):
         return policy, value
 
     def create_sess(self, ckpt_path=""):
+        import os
+        tpu_address = 'grpc://' + os.environ['COLAB_TPU_ADDR']
+
         with tf.get_default_graph().as_default():
 
-            sess_ = tf.Session(config=tf.ConfigProto(
+            sess_ = tf.Session(tpu_address, config=tf.ConfigProto(
                 allow_soft_placement=True, log_device_placement=False))
             vars_train = tf.get_collection("vars_train")
             v_to_init = list(set(tf.global_variables()) - set(vars_train))
