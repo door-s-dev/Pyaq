@@ -52,8 +52,6 @@ class DualNetwork(object):
         return tf.nn.relu(tf.add(conv1, x_add))
 
     def model(self, x, temp=1.0, dr=1.0):
-        hi = []
-        prev_h = tf.reshape(x, [-1, BSIZE, BSIZE, FEATURE_CNT])
 
         # residual blocks with N layers
         for i in range(BLOCK_CNT):
@@ -118,7 +116,7 @@ class DualNetwork(object):
 
         with tf.get_default_graph().as_default():
 
-            sess_ = tf.Session(tpu_address, config=tf.ConfigProto(
+            sess_ = tf.Session(config=tf.ConfigProto(
                 allow_soft_placement=True, log_device_placement=False))
             vars_train = tf.get_collection("vars_train")
             v_to_init = list(set(tf.global_variables()) - set(vars_train))

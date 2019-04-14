@@ -71,7 +71,7 @@ def stdout_log(str):
     log_file.close()
 
 
-def learn(lr_=1e-4, dr_=0.7, sgf_dir="sgf/", use_gpu=True, gpu_cnt=1):
+def learn(lr_=1e-3, dr_=0.7, sgf_dir="sgf/", use_gpu=True, gpu_cnt=1):
 
     device_name = "gpu" if use_gpu else "cpu"
     with tf.get_default_graph().as_default(), tf.device("/cpu:0"):
@@ -162,8 +162,10 @@ def learn(lr_=1e-4, dr_=0.7, sgf_dir="sgf/", use_gpu=True, gpu_cnt=1):
     # training
     for epoch_idx in range(total_epochs):
         if epoch_idx > 0 and (epoch_idx - 8) % 8 == 0:
-            learning_rate *= 0.5
-            stdout_log("learning rate=%.1g\n" % (learning_rate))
+            #learning_rate *= 0.5
+            #stdout_log("learning rate=%.1g\n" % (learning_rate))
+            batch_cnt *= 2
+            stdout_log("batch_cnt=%.1g\n" % (batch_cnt))
 
         for step_idx in range(epoch_steps):
             feed_dict_ = {}
