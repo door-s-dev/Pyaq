@@ -52,6 +52,8 @@ class DualNetwork(object):
         return tf.nn.relu(tf.add(conv1, x_add))
 
     def model(self, x, temp=1.0, dr=1.0):
+        hi = []
+        prev_h = tf.reshape(x, [-1, BSIZE, BSIZE, FEATURE_CNT])
 
         # residual blocks with N layers
         for i in range(BLOCK_CNT):
@@ -111,8 +113,6 @@ class DualNetwork(object):
         return policy, value
 
     def create_sess(self, ckpt_path=""):
-        import os
-        tpu_address = 'grpc://' + os.environ['COLAB_TPU_ADDR']
 
         with tf.get_default_graph().as_default():
 
